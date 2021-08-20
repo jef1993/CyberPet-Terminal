@@ -40,6 +40,12 @@ const app = async function () {
     app();
   };
 
+  const displayStatus = function () {
+    ui.updateBottomBar(
+      `Happiness: ${myPet.happiness} Hunger: ${myPet.hunger} Thirst: ${myPet.thirst}`
+    );
+  };
+
   const game = async function () {
     const chooseAction = await inquirer.prompt([
       {
@@ -63,13 +69,12 @@ const app = async function () {
     if (myPet.hunger <= 0 || myPet.thirst <= 0 || myPet.happiness <= 0) {
       gameOver();
     } else {
-      ui.updateBottomBar(
-        `Happiness: ${myPet.happiness} Hunger: ${myPet.hunger} Thirst: ${myPet.thirst}`
-      );
+      displayStatus();
       game();
     }
   };
 
+  displayStatus();
   counter = setInterval(function () {
     for (let i = 0; i < 3; i++) {
       myPet[Object.keys(myPet)[i]] -= 1;
@@ -77,9 +82,7 @@ const app = async function () {
     if (myPet.hunger <= 0 || myPet.thirst <= 0 || myPet.happiness <= 0) {
       gameOver();
     } else {
-      ui.updateBottomBar(
-        `Happiness: ${myPet.happiness} Hunger: ${myPet.hunger} Thirst: ${myPet.thirst}`
-      );
+      displayStatus();
     }
   }, 1000 * myPet.decayValue);
   game();
